@@ -1,0 +1,40 @@
+<ion-header translucent>
+    <ion-toolbar>
+      <ion-title>Search users</ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      <ion-icon [name]="item.icon" slot="start"></ion-icon>
+      {{item.title}}
+      <div class="item-note" slot="end">
+        {{item.note}}
+      </div>
+    </ion-item>
+  </ion-list>
+  <!--
+    <div *ngIf="selectedItem" padding>
+      You navigated here from <b>{{selectedItem.title }}</b>
+    </div>
+  -->
+</ion-content>
+
+<script>
+    const searchbar = document.querySelector('ion-searchbar');
+    const items = Array.from(document.querySelector('ion-list').children);
+    searchbar.addEventListener('ionInput', handleInput);
+    function handleInput(event) {
+      const query = event.target.value.toLowerCase();
+      requestAnimationFrame(() => {
+        items.forEach(item => {
+          const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
+          item.style.display = shouldShow ? 'block' : 'none';
+        });
+      });
+    }
+  </script>
